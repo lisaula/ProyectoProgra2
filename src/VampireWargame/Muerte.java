@@ -10,18 +10,20 @@ package VampireWargame;
  *
  * @author admin
  */
-public class Lobo extends Ficha {
-    
-    public Lobo(String c){
-        super(5,2,5,c);
+public class Muerte extends Ficha {
+    public Muerte(String c){
+        super(3,1,4,c);
         
     }
     
+    public void ataqueLanza(Ficha a){
+        a.vida -= 2;
+    }
     
-
-   
+    public void CrearZombie(int x){
+       
+    }
     
-
     
     
     

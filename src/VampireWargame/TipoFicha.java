@@ -11,5 +11,5 @@ package VampireWargame;
  * @author admin
  */
 public enum TipoFicha {
-    
+    HOMBRELOBO, VAMPIRO, MUERTE
 }

@@ -22,15 +22,16 @@ public class Ficha {
     }
     
       
-    public void atacar(Ficha atacante, Ficha atacado ) {
+    public void atacar(Ficha atacado ) {
         if(atacado.escudo !=0){
-           int d = atacado.escudo - atacante.espada;
-           if(d<0){
-               atacado.vida -=d;
+           atacado.escudo -= espada;
+           if(atacado.escudo<0){
+               atacado.vida -=atacado.escudo;
+               atacado.escudo=0;
            }
         }
         else{
-            atacado.vida -= atacante.espada;
+            atacado.vida -= espada;
         }
     }
     

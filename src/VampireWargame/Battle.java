@@ -27,6 +27,7 @@ public class Battle {
         }
         Ficha vampiro = new Vampiro("Blanco");
         Ficha vampiro2 = new Vampiro("Negro");
+        Ficha vampire = new Vampiro("Negro");
         Muerte muerte = new Muerte("Negro");
         
         ((Vampiro)vampiro).chuparSangre(vampiro2);

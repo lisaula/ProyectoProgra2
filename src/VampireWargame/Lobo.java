@@ -12,11 +12,12 @@ package VampireWargame;
  */
 public class Lobo extends Ficha {
     
-    public Lobo(String c){
+    public Lobo(String c, int co, int f){
         super(5,2,5,c);
         nombre ="L";
-        
-    }
+        x =co;
+        y =f;
+     }
     
     
 

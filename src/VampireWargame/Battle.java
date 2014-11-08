@@ -6,6 +6,8 @@
 
 package VampireWargame;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author admin
@@ -18,28 +20,29 @@ public class Battle {
         for(int x=0;x<6;x++){
             for(int y=0;y<6;y++){
                 if(tablero[x][y]== null)
-                    System.out.print(" [ ]");
+                    System.out.print("[  ]  ");
                 else
-                    System.out.print(" "+tablero[x][y].toString());
+                    System.out.print(""+tablero[x][y].toString()+"  ");
             }
             System.out.println("");
         }
     }
     
-
     public static void main(String[] args) {
-        Ficha vampiro = new Vampiro("b");
-        Ficha vampiro2 = new Vampiro("b");
-        Ficha vampiro3 = new Vampiro("n");
-        Ficha vampiro4 = new Vampiro("n");
-        Ficha muerte = new Muerte("b");
-        Ficha muerte2 = new Muerte("b");
-        Ficha muerte3 = new Muerte("n");
-        Ficha muerte4 = new Muerte("n");
-        Ficha lobo = new Lobo("b");
-        Ficha lobo2 = new Lobo("b");
-        Ficha lobo3 = new Lobo("n");
-        Ficha lobo4 = new Lobo("n");
+        ArrayList <Jugador> players = new ArrayList<>();
+        
+        Ficha vampiro = new Vampiro("B",0,1);
+        Ficha vampiro2 = new Vampiro("B",0,4);
+        Ficha vampiro3 = new Vampiro("N",5,1);
+        Ficha vampiro4 = new Vampiro("N",5,4);
+        Ficha muerte = new Muerte("B",0,2);
+        Ficha muerte2 = new Muerte("B",0,3);
+        Ficha muerte3 = new Muerte("N",5,2);
+        Ficha muerte4 = new Muerte("N",5,3);
+        Ficha lobo = new Lobo("B",0,0);
+        Ficha lobo2 = new Lobo("B",0,5);
+        Ficha lobo3 = new Lobo("N",5,0);
+        Ficha lobo4 = new Lobo("N",5,5);
         
         tablero[0][0]=lobo;
         tablero[0][5]=lobo2;
@@ -54,7 +57,18 @@ public class Battle {
         tablero[5][2]=muerte3;
         tablero[5][3]=muerte4;
         
+        
+        
+       
         printTablero(); 
+        if(tablero[0][0].moverPieza(tablero))
+            System.out.println("Movido");
+        else
+            tablero[0][0].moverPieza(tablero);
+        
+        printTablero(); 
+        
+        
         
         
         

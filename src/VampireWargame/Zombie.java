@@ -12,9 +12,11 @@ package VampireWargame;
  */
 public class Zombie extends Ficha {
     
-    public Zombie(String c){
+    public Zombie(String c, int co, int f){
         super(1,1,0,c);
         nombre ="Z";
+        x =co;
+        y =f;
     }
     
     

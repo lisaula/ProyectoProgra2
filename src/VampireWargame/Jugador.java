@@ -18,7 +18,10 @@ public class Jugador {
     public Jugador(String n){
         nombre = n;
         ranking = 0; 
+        
     }
+    
+    
     
     
 }

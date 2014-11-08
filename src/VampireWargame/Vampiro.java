@@ -14,7 +14,7 @@ public class Vampiro extends Ficha{
     
     public Vampiro(String c){
         super(4,5,3,c);
-        
+        nombre ="V";
     }
     
     public void chuparSangre(Ficha c){

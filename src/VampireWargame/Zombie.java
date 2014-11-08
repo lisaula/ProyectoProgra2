@@ -14,6 +14,7 @@ public class Zombie extends Ficha {
     
     public Zombie(String c){
         super(1,1,0,c);
+        nombre ="Z";
     }
     
     

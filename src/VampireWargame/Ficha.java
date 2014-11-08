@@ -12,16 +12,21 @@ package VampireWargame;
  */
 public class Ficha {
     protected int vida, escudo, espada;
-    protected String color;
+    protected String color, nombre;
 
     public Ficha(int vida, int escudo, int espada, String color) {
         this.vida = vida;
         this.escudo = escudo;
         this.espada = espada;
         this.color = color;
+        nombre="Undefined";
     }
     
-      
+    public String toString(){
+        nombre.toUpperCase();
+        color.toUpperCase();
+        return nombre+color+" ";
+    }
     public void atacar(Ficha atacado ) {
         if(atacado.escudo !=0){
            atacado.escudo -= espada;

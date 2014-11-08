@@ -14,6 +14,7 @@ public class Lobo extends Ficha {
     
     public Lobo(String c){
         super(5,2,5,c);
+        nombre ="L";
         
     }
     

@@ -11,5 +11,14 @@ package VampireWargame;
  * @author admin
  */
 public class Jugador {
+    private String nombre;
+    private int ranking;
+    
+    
+    public Jugador(String n){
+        nombre = n;
+        ranking = 0; 
+    }
+    
     
 }

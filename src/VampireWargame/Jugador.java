@@ -20,6 +20,10 @@ public class Jugador {
         ranking = 0; 
         
     }
+
+    public String getNombre() {
+        return nombre;
+    }
     
     
     

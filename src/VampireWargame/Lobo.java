@@ -13,37 +13,50 @@ public class Lobo extends Ficha {
 
     public Lobo(String c, int co, int f) {
         super(5, 2, 5, c);
-        nombre = "L";
+        nombreFicha = "L";
+        nombreEspectro="LOBO";
         x = co;
         y = f;
     }
 
-    public boolean moverPieza(Ficha t[][]) {
-        int p1, p2;
+    public boolean moverPieza(int f, int c) {
+        int fn,cn;
         System.out.print("Nueva posicion de Fila: ");
-        p1 = lea.nextInt();
+        fn= lea.nextInt();
         System.out.print("Nueva posicion de Columna: ");
-        p2 = lea.nextInt();
+        cn = lea.nextInt();
 
-        if(p1 <= (x +2) && p2 <= (y +2) ){
-        if (t[p1][p2] == null) {
-            if ((p1<=(x+2)&&p2!=(y+1))) {
-                t[p1][p2] = t[x][y];
-                t[x][y] = null;
-                x = p1;
-                y = p2;
+        if(((fn <= (f +1)||fn<=(f-1))||(fn <= (f +2)||fn<=(f-2))) && ((cn <= (c +1)||cn<=(c-1))||(cn <= (c +2)||cn<=(c-2)))){
+          if (Battle.tablero[fn][cn] == null) {
+                Battle.tablero[fn][cn] = Battle.tablero[f][c];
+                Battle.tablero[x][y] = null;
+//                x = p1;
+//                y = p2;
                 return true;
             }else{
-                System.out.println("No puedes moverte en L.");
+                System.out.println("Poscion ocupada");
                 return false;
             }
         } else {
-            System.out.println("Poscion ocupada");
+            System.out.println("Posicion Inalcanzable");
             return false;
         }
-        }else
-            System.out.println("Habilidad no disponible del Lobo");
-        return false;
+    }
+
+    @Override
+    public void subMenu(int f, int c) {
+        System.out.println("1.Moverse \n2.Atacar\nQue opcion desea?");
+        int op=lea.nextInt();
+        switch (op){
+            case 1:
+                moverPieza(f,c);
+                break;
+            case 2:
+                atacar(f,c);
+                break;
+             default:
+                System.out.println("OPCION NO VALIDA");
+        }
     }
 
     

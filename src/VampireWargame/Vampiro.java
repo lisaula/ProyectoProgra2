@@ -10,24 +10,27 @@ package VampireWargame;
  * @author admin
  */
 public class Vampiro extends Ficha {
-
+ 
     public Vampiro(String c, int co, int f) {
         super(4, 5, 3, c);
-        nombre = "V";
+        nombreFicha = "V";
+        nombreEspectro="VAMPIRO";
         x = co;
         y = f;
     }
+    
 
-    public boolean chuparSangre() {
+    public boolean chuparSangre(int fil,int col) {
         int p1, p2;
         System.out.print("Fila de Ficha a Chupar sangre: ");
         p1 = lea.nextInt();
         System.out.print("Columna de Ficha a Chupar sangre: ");
         p2 = lea.nextInt();
         Ficha c = Battle.tablero[p1][p2];
-        if (p1 <= (x + 1) && p2 <= (y + 1)) {
+        Ficha c2= Battle.tablero[fil][col];
+        if (p1 <= (fil + 1) && p2 <= (col + 1)) {
             if (Battle.tablero[p1][p2] != null) {
-                if (!color.equals(c.color)) {
+                if (!(c2.color.equals(c.color))) {
                     if (c.escudo > 0) {
                         c.escudo -= 1;
                         if (c.escudo < 0) {
@@ -53,5 +56,24 @@ public class Vampiro extends Ficha {
             return false;
         }
 
+    }
+
+    @Override
+    public void subMenu(int f, int c) {
+        System.out.println("1.Moverse \n2.Atacar\n3.Chupar Sangre\nQue opcion desea?");
+        int op=lea.nextInt();
+        switch (op){
+            case 1:
+                moverPieza(f,c);
+                break;
+            case 2:
+                atacar(f,c);
+                break;
+            case 3:
+                chuparSangre(c,f);
+                break;
+            default:
+                System.out.println("OPCION NO VALIDA");
+        }
     }
 }

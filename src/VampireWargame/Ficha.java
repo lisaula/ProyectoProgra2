@@ -11,10 +11,10 @@ import java.util.Scanner;
  *
  * @author admin
  */
-public class Ficha {
+public abstract class Ficha {
 
     protected int vida, escudo, espada, x, y;
-    protected String color, nombre;
+    protected String color, nombreFicha,nombreEspectro;
     Scanner lea = new Scanner(System.in);
 
     public Ficha(int vida, int escudo, int espada, String color) {
@@ -22,25 +22,23 @@ public class Ficha {
         this.escudo = escudo;
         this.espada = espada;
         this.color = color;
-        nombre = "Undefined";
+        nombreFicha = "Undefined"; 
+        nombreEspectro="Undefined";//cambio
         x = 0;
         y = 0;
     }
 
-    public boolean moverPieza(Ficha t[][]) {
-        int p1, p2;
+    public boolean moverPieza(int f, int c) {
+        int fn, cn;
         System.out.print("Nueva posicion de Fila: ");
-        p1 = lea.nextInt();
+        fn = lea.nextInt();
         System.out.print("Nueva posicion de Columna: ");
-        p2 = lea.nextInt();
-
-        if (p1 <= (x +1) && p2 <= (y +1)) {
-            if (t[p1][p2] == null) {
-                t[p1][p2] = t[x][y];
-                t[x][y] = null;
-                x = p1;
-                y = p2;
-                return true;
+        cn = lea.nextInt();
+        if ((fn <= (f +1)||fn<=(f-1)) && (cn <= (c +1)||cn<=(c-1))) {                                                                    
+            if (Battle.tablero[fn][cn] == null) {
+                Battle.tablero[fn][cn] = Battle.tablero[f][c];
+                Battle.tablero[f][c] = null;
+                 return true;
             }else{
                 System.out.println("Poscion ocupada");
                 return false;
@@ -49,26 +47,28 @@ public class Ficha {
             System.out.println("Posicion Inalcanzable");
             return false;
         }
+        
     }
 
     public String toString() {
-        return "|" + nombre + color + "|";
+        return "|" + nombreFicha + color + "|";
     }
 
     public void print() {
-        System.out.println(nombre + color + " - Vida: " + vida + " - Escudo: " + escudo);
+        System.out.println(nombreFicha+ color + " - Vida: " + vida + " - Escudo: " + escudo);
     }
 
-    public void atacar() {
-        int p1, p2;
+    public void atacar(int f, int c) {
+        int fn, cn;
         System.out.print("Fila de Ficha a atacar: ");
-        p1 = lea.nextInt();
+        fn = lea.nextInt();
         System.out.print("Columna de Ficha a atacar: ");
-        p2 = lea.nextInt();
-        Ficha atacado = Battle.tablero[p1][p2];
-        if (p1 <= (x + 1) && p2 <= (y + 1)) {
-            if(Battle.tablero[p1][p2] != null){
-                if (!color.equals(atacado.color)) {
+        cn = lea.nextInt();
+        Ficha atacado = Battle.tablero[fn][cn];
+        Ficha atacante=Battle.tablero[f][c];
+        if ((fn <= (f +1)||fn<=(f-1)) && (cn <= (c +1)||cn<=(c-1))) {
+            if(Battle.tablero[fn][cn] != null){
+                if (!(atacante.color.equals(atacado.color))) {
                     if (atacado.escudo > 0) {
                         atacado.escudo -= espada;
                         if (atacado.escudo < 0) {
@@ -85,8 +85,12 @@ public class Ficha {
             } else {
                 System.out.println("Posicion Vacia");
             }
-        }else
-            System.out.println("Posicion inalcanzable");
+        }else{
+            System.out.println("Posicion inalcanzable"); 
+        }
+           
     }
+    
+    public abstract void subMenu(int f,int c);
 
 }

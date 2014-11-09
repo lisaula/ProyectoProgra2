@@ -14,7 +14,8 @@ public final class Zombie extends Ficha {
     
     public Zombie(String c, int co, int f){
         super(1,1,0,c);
-        nombre ="Z";
+        nombreFicha = "Z";
+        nombreEspectro="ZOMBIE";
         x =co;
         y =f;
     }
@@ -48,6 +49,15 @@ public final class Zombie extends Ficha {
         } else {
             System.out.println("Posicion inalcanzable");
         }
+    }
+    
+    public void crearZombie(int f,int c){
+        
+    }
+
+    @Override
+    public void subMenu(int f, int c) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

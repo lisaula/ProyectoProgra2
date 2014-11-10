@@ -21,31 +21,33 @@ public class Vampiro extends Ficha {
 
     public boolean chuparSangre(int fil, int col) {
         int p1, p2;
-        System.out.print("Fila de Ficha a Chupar sangre: ");
-        p1 = lea.nextInt();
-        System.out.print("Columna de Ficha a Chupar sangre: ");
-        p2 = lea.nextInt();
+        while (true) {
+            System.out.print("Fila de Ficha a Chupar sangre: ");
+            p1 = lea.nextInt();
+            System.out.print("Columna de Ficha a Chupar sangre: ");
+            p2 = lea.nextInt();
+            if (Battle.tablero[p1][p2] != null) {
+                break;
+            }
+            System.out.println("posicion vacia,ingrese otras coordeandas");
+        }
         Ficha atacado = Battle.tablero[p1][p2];
         Ficha atacante = Battle.tablero[fil][col];
         if ((p1 <= (fil + 1) || p1 <= (fil - 1)) && (p2 <= (col + 1) || p2 <= (col - 1)) && ((fil + 1) <= p1 || (fil - 1) <= p1) && ((col + 1) <= p2 || (col - 1) <= p2)) {
-            if (Battle.tablero[p1][p2] != null) {
-                if (atacante.color.equals(atacado.color)) {
-                    System.out.println("No puedes atacar a tu mismo equipo");
-                    return false;
-                } else {
-                    if (atacado.escudo > 0) {
-                        atacado.escudo -= 1;
-                    } else {
-                        atacado.vida -= 1;
-                    }
-                    atacado.print();
-                    atacante.vida += 1;
-                    return true;
-                }
-            } else {
-                System.out.println("Posicion Vacia");
+            if (atacante.color.equals(atacado.color)) {
+                System.out.println("No puedes atacar a tu mismo equipo");
                 return false;
+            } else {
+                if (atacado.escudo > 0) {
+                    atacado.escudo -= 1;
+                } else {
+                    atacado.vida -= 1;
+                }
+                atacado.print(1);
+                atacante.vida += 1;
+                return true;
             }
+
         } else {
             System.out.println("Posicion inalcanzable");
             return false;
@@ -54,15 +56,16 @@ public class Vampiro extends Ficha {
     }
 
     @Override
-    public void subMenu(int f, int c) {
+    public void subMenu(int f, int c, String n) {
         System.out.println("1.Moverse \n2.Atacar\n3.Chupar Sangre\nQue opcion desea?");
         int op = lea.nextInt();
         switch (op) {
             case 1:
-                moverPieza(f, c);
+                moverPieza(f,c);
                 break;
             case 2:
-                atacar(f, c);
+                
+                System.out.println(super.atacar(f, c)+n);
                 break;
             case 3:
                 chuparSangre(c, f);

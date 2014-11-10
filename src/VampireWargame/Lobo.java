@@ -19,8 +19,10 @@ public class Lobo extends Ficha {
         y = f;
     }
 
-    public boolean moverPieza(int f, int c) {
+    @Override
+    public void moverPieza(int f, int c) {
         int fn,cn;
+        while(true){
         System.out.print("Nueva posicion de Fila: ");
         fn= lea.nextInt();
         System.out.print("Nueva posicion de Columna: ");
@@ -30,21 +32,20 @@ public class Lobo extends Ficha {
           if (Battle.tablero[fn][cn] == null) {
                 Battle.tablero[fn][cn] = Battle.tablero[f][c];
                 Battle.tablero[f][c] = null;
-//                x = p1;
-//                y = p2;
-                return true;
+                break;
             }else{
                 System.out.println("Poscion ocupada");
-                return false;
+                
             }
         } else {
             System.out.println("Posicion Inalcanzable");
-            return false;
+            
+        }
         }
     }
 
     @Override
-    public void subMenu(int f, int c) {
+    public void subMenu(int f, int c,String n) {
         System.out.println("1.Moverse \n2.Atacar\nQue opcion desea?");
         int op=lea.nextInt();
         switch (op){
@@ -52,7 +53,7 @@ public class Lobo extends Ficha {
                 moverPieza(f,c);
                 break;
             case 2:
-                atacar(f,c);
+                System.out.println( atacar(f,c));
                 break;
              default:
                 System.out.println("OPCION NO VALIDA");

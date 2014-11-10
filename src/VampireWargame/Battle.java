@@ -13,6 +13,8 @@ public class Battle {
                 if (tablero[x][y] == null) {
                     System.out.print("[  ]");
                 } else {
+                    if(tablero[x][y].vida <= 0 )
+                        tablero[x][y]=null;
                     System.out.print("" + tablero[x][y].toString() + "");
                 }
             }
@@ -31,18 +33,18 @@ public class Battle {
 
     public static int controlFichas(boolean t) {
         int contB = 0, contN = 0;
-        for (Ficha f[]: Battle.tablero) {
-            for (Ficha c: f) {
+        for (Ficha f[] : Battle.tablero) {
+            for (Ficha c : f) {
                 if (c != null && c.color.equals("N")) {
                     contN++;
-                } else if(c != null && c.color.equals("B")){
+                } else if (c != null && c.color.equals("B")) {
                     contB++;
                 }
             }
         }
-        if (t==true) {
+        if (t == true) {
             return contB;
-        } 
+        }
         return contN;
     }
 
@@ -61,8 +63,8 @@ public class Battle {
 
             switch (op) {
                 case 1:
-                    Jugador player1=null;
-                    Jugador player2=null;
+                    Jugador player1 = null;
+                    Jugador player2 = null;
 
                     System.out.print("Ingrese USERNAME de Player #1:");
                     String j1 = lea.next();
@@ -70,7 +72,7 @@ public class Battle {
                         player1 = buscarPlayer(j1);
                     } else {
                         players.add(new Jugador(j1));
-                        player1=buscarPlayer(j1);
+                        player1 = buscarPlayer(j1);
                     }
 
                     System.out.print("Ingrese USERNAME de Player #2:");
@@ -83,23 +85,25 @@ public class Battle {
                         player2 = buscarPlayer(j2);
                     }
 
-                    tablero[0][0] = new Lobo("B", 0, 0);;
-                    tablero[0][5] = new Lobo("B", 0, 5);;
-                    tablero[5][0] = new Lobo("N", 5, 0);;
-                    tablero[5][5] = new Lobo("N", 5, 5);;
+                    tablero[0][0] = new Lobo("B", 0, 0);
+                    tablero[0][5] = new Lobo("B", 0, 5);
+                    tablero[5][0] = new Lobo("N", 5, 0);
+                    tablero[5][5] = new Lobo("N", 5, 5);
                     tablero[0][1] = new Vampiro("B", 0, 1);
                     tablero[0][4] = new Vampiro("B", 0, 4);
-                    tablero[5][1] = new Vampiro("N", 5, 1);;
-                    tablero[5][4] = new Vampiro("N", 5, 4);;
-                    tablero[0][2] = new Muerte("B", 0, 2);;
-                    tablero[0][3] = new Muerte("B", 0, 3);;
-                    tablero[5][2] = new Muerte("N", 5, 2);;
-                    tablero[5][3] = new Muerte("N", 5, 3);;
-                    
-                    int caso1=0,caso2=0;
+                    tablero[5][1] = new Vampiro("N", 5, 1);
+                    tablero[5][4] = new Vampiro("N", 5, 4);
+                    tablero[0][2] = new Muerte("B", 0, 2);
+                    tablero[0][3] = new Muerte("B", 0, 3);
+                    tablero[5][2] = new Muerte("N", 5, 2);
+                    tablero[5][3] = new Muerte("N", 5, 3);
+
+                    int caso1 = 0,
+                     caso2 = 0;
                     String jugadorEnTurno;
-                    int fichasRestantes=0;
-                    boolean turn = true;
+                    int fichasRestantes = 0;
+                    boolean turn = true,
+                     retiro = false;
 
                     do {
                         System.out.println("");
@@ -107,11 +111,11 @@ public class Battle {
                         System.out.println("");
                         jugadorEnTurno = (turn == true ? "Turno fichas blancas, mueve " + player1.getNombre() : "Turno Fichas negras, mueve " + player2.getNombre());
                         System.out.println(jugadorEnTurno);
-                        
-                        fichasRestantes=controlFichas(turn);
-                        System.out.println("Restante de fichas: "+fichasRestantes);
 
-                        String espectroAlAzar = arr[rnd.nextInt(arr.length)];//sselecciona al azar
+                        fichasRestantes = controlFichas(turn);
+                        System.out.println("Restante de fichas: " + fichasRestantes);
+
+                        String espectroAlAzar = arr[rnd.nextInt(arr.length)];
                         System.out.println("Su opcion a mover es un(a) " + espectroAlAzar);
                         int fa, ca;
 
@@ -122,43 +126,69 @@ public class Battle {
                             System.out.print("Ingrese posicion columna actual: ");
                             ca = lea.nextInt();
 
-                            if (tablero[fa][ca] != null && tablero[fa][ca].nombreEspectro.equals(espectroAlAzar)) {//compara que la posicion que ingreso sea del tipo que le salio
-                                break;
-                            } else if (fa == -1 && ca == -1) {
+                            
+                            if (fa == -1 && ca == -1) {
+                                retiro = true;
                                 System.out.print("En realidad desea salir del juego? ");
                                 String res = lea.next();
                                 if (res.equalsIgnoreCase("si")) {
-                                  break;
+                                    break;
                                 }
                                 continue;
+
+                               
+                            } else if (tablero[fa][ca] != null && tablero[fa][ca].nombreEspectro.equals(espectroAlAzar)) {
+                                break;
                             }
                             System.out.println("coordenadas incorrectas, ingreselas de nuevo");
                         }
-                        tablero[fa][ca].subMenu(fa, ca);
-                        //printTablero();
-                        if(fichasRestantes==4 && caso1<=1){
+                        
+                        if(retiro==true & turn ==true){
+                            System.out.println("Jugador "+player1.getNombre()+"Se ha retirado. Felicidades "
+                                    +player2.getNombre()+"gasnaste 3 puntos");
+                            player2.setPuntos();
+                            break;
+                        }
+                        if(retiro==true & turn ==false){
+                            System.out.println("Jugador "+player1.getNombre()+"Se ha retirado. Felicidades "
+                                    +player2.getNombre()+"gasnaste 3 puntos");
+                            player2.setPuntos();
+                            break;
+                        }
+
+                        if(turn==true){
+                            tablero[fa][ca].subMenu(fa, ca,player1.getNombre());
+                        }
+                        
+                        if(turn==false){
+                            tablero[fa][ca].subMenu(fa, ca,player2.getNombre());
+                        }
+
+                        printTablero();
+                        if (fichasRestantes == 4 && caso1 <= 1) {
                             caso1++;
                             continue;
                         }
-                        
-                        if (fichasRestantes==2 && caso2<=2){
+
+                        if (fichasRestantes == 2 && caso2 <= 2) {
                             caso2++;
                             continue;
+
                         }
-                        
-                        if (fichasRestantes==0 && turn==true){
-                            System.out.println("Jugador "+player2.getNombre()+" ha vencido a jugador"+player1.getNombre()+
-                                    ". Felicidades tienes 3 puntos");
+
+                        if (fichasRestantes == 0 && turn == true) {
+                            System.out.println("Jugador " + player2.getNombre() + " ha vencido a jugador" + player1.getNombre()
+                                    + ". Felicidades tienes 3 puntos");
                             player2.setPuntos();
                         }
-                        if (fichasRestantes==0 && turn==false){
-                            System.out.println("Jugador "+player1.getNombre()+" ha vencido a jugador"+player2.getNombre()+
-                                    ". Felicidades tienes 3 puntos");
+                        if (fichasRestantes == 0 && turn == false) {
+                            System.out.println("Jugador " + player1.getNombre() + " ha vencido a jugador" + player2.getNombre()
+                                    + ". Felicidades tienes 3 puntos");
                             player1.setPuntos();
                         }
                         turn = !turn;
-                        
-                    } while (fichasRestantes>0);
+
+                    } while (fichasRestantes > 0);
                     break;
                 case 2:
                     break;

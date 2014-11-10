@@ -31,15 +31,11 @@ public final class Zombie extends Ficha {
             if (Battle.tablero[fn][cn] != null) {
                 if (!color.equals(atacado.color)) {
                     if (atacado.escudo > 0) {
-                        atacado.escudo -= 1;
-                        if (atacado.escudo < 0) {
-                            atacado.vida += atacado.escudo;
-                            atacado.escudo = 0;
-                        }
+                        atacado.escudo-=1;
                     } else {
                         atacado.vida -= 1;
                     }
-                    atacado.print();
+                    atacado.print(1);
                  } else {
                     System.out.println("No puedes atacar a tu mismo equipo");
                  }
@@ -56,7 +52,7 @@ public final class Zombie extends Ficha {
     }
 
     @Override
-    public void subMenu(int f, int c) {
+    public void subMenu(int f, int c,String n) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

@@ -26,10 +26,10 @@ public class Lobo extends Ficha {
         System.out.print("Nueva posicion de Columna: ");
         cn = lea.nextInt();
 
-        if(((fn <= (f +1)||fn<=(f-1))||(fn <= (f +2)||fn<=(f-2))) && ((cn <= (c +1)||cn<=(c-1))||(cn <= (c +2)||cn<=(c-2)))){
+        if((fn <= (f +2)||fn<=(f-2)) && (cn <= (c +2)||cn<=(c-2)) && ((f +2)<=fn ||(f-2)<=fn) && ((c +2)<=cn ||(c-2)<=cn)){
           if (Battle.tablero[fn][cn] == null) {
                 Battle.tablero[fn][cn] = Battle.tablero[f][c];
-                Battle.tablero[x][y] = null;
+                Battle.tablero[f][c] = null;
 //                x = p1;
 //                y = p2;
                 return true;

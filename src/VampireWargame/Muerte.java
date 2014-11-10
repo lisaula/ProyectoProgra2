@@ -20,17 +20,17 @@ public class Muerte extends Ficha {
     }
     
     public void ataqueLanza(int f, int c){
-        int p1,p2;
+        int fn,cn;
         System.out.print("Fila de ficha a lanzar: ");
-        p1 = lea.nextInt();
+        fn = lea.nextInt();
         System.out.print("Columna de ficha a lanzar: ");
-        p2 = lea.nextInt();
-        Ficha a=Battle.tablero[p1][p2];
-        if (p1 <= (f+ 2) && p2 <= (c + 2)) {
-            if (a != null) {
-                if (!Battle.tablero[f][c].color.equals(a.color)) {
-                       a.vida -= 2;
-                       a.print();
+        cn = lea.nextInt();
+        Ficha atacado=Battle.tablero[fn][cn];
+        if ((fn <= (f +2)||fn<=(f-2)) && (cn <= (c +2)||cn<=(c-2)) && ((f +2)<=fn ||(f-2)<=fn) && ((c +2)<=cn ||(c-2)<=cn)) {
+            if (atacado != null) {
+                if (!Battle.tablero[f][c].color.equals(atacado.color)) {
+                       atacado.vida -= 2;
+                       atacado.print();
                 }else
                     System.out.println("No puedes atacar a tu mismo equipo");
             }else
@@ -55,14 +55,21 @@ public class Muerte extends Ficha {
 
     @Override
     public void subMenu(int f, int c) {
-       System.out.println("1.Moverse \n2.Atacar\n3.Lanzar lanza \n4.Conjurar zombie\nQue opcion desea?");
+       System.out.println("1.Moverse \n2.Atacar\n3.Ataque lanza \n4.Conjurar zombie\nQue opcion desea?");
         int op=lea.nextInt();
         switch (op){
             case 1:
                 moverPieza(f,c);
                 break;
             case 2:
-                atacar(f,c);
+                System.out.print("a.Ataque normal\nb.Ataque con zombie\nEscoja uno:");
+                char op2=lea.next().charAt(0);
+                if(op2=='a'){
+                    atacar(f,c);
+                }else{
+                    
+                }
+                
                 break;
             case 3:
                 ataqueLanza(f,c);
@@ -76,6 +83,8 @@ public class Muerte extends Ficha {
                 if(Battle.tablero[nf][nc]==null){
                 Zombie z = new Zombie(Battle.tablero[f][c].color,nf,nc);
                 break;
+                }else{
+                    System.out.print("Posicion ocupada,escoja otra.");
                 }
                 }
                 break;

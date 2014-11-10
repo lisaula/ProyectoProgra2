@@ -34,7 +34,7 @@ public abstract class Ficha {
         fn = lea.nextInt();
         System.out.print("Nueva posicion de Columna: ");
         cn = lea.nextInt();
-        if ((fn <= (f +1)||fn<=(f-1)) && (cn <= (c +1)||cn<=(c-1))) {                                                                    
+        if ((fn <= (f +1)||fn<=(f-1)) && (cn <= (c +1)||cn<=(c-1)) && ((f +1)<=fn ||(f-1)<=fn) && ((c +1)<=cn ||(c-1)<=cn)) {                                                                    
             if (Battle.tablero[fn][cn] == null) {
                 Battle.tablero[fn][cn] = Battle.tablero[f][c];
                 Battle.tablero[f][c] = null;
@@ -66,7 +66,7 @@ public abstract class Ficha {
         cn = lea.nextInt();
         Ficha atacado = Battle.tablero[fn][cn];
         Ficha atacante=Battle.tablero[f][c];
-        if ((fn <= (f +1)||fn<=(f-1)) && (cn <= (c +1)||cn<=(c-1))) {
+        if ((fn <= (f +1)||fn<=(f-1)) && (cn <= (c +1)||cn<=(c-1)) && ((f +1)<=fn ||(f-1)<=fn) && ((c +1)<=cn ||(c-1)<=cn)) {
             if(Battle.tablero[fn][cn] != null){
                 if (!(atacante.color.equals(atacado.color))) {
                     if (atacado.escudo > 0) {

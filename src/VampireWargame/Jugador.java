@@ -12,7 +12,7 @@ package VampireWargame;
  */
 public class Jugador {
     private String nombre;
-    private int ranking;
+    private int ranking,puntos=0;
     
     
     public Jugador(String n){
@@ -23,6 +23,14 @@ public class Jugador {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public int getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos() {
+        puntos+=3;
     }
     
     

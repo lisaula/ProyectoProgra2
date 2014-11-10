@@ -20,26 +20,26 @@ public final class Zombie extends Ficha {
         y =f;
     }
     
-    public void ataqueZombie(){
-        int p1, p2;
+    public void ataqueZombie(int f,int c){
+        int fn,cn;
         System.out.print("Fila de Ficha a atacar Zombie: ");
-        p1 = lea.nextInt();
+        fn = lea.nextInt();
         System.out.print("Columna de Ficha a atacar Zombie: ");
-        p2 = lea.nextInt();
-        Ficha c = Battle.tablero[p1][p2];
-        if (p1 <= (x + 1) && p2 <= (y + 1)) {
-            if (Battle.tablero[p1][p2] != null) {
-                if (!color.equals(c.color)) {
-                    if (c.escudo > 0) {
-                        c.escudo -= 1;
-                        if (c.escudo < 0) {
-                            c.vida += c.escudo;
-                            c.escudo = 0;
+        cn = lea.nextInt();
+        Ficha atacado = Battle.tablero[fn][cn];
+        if ((fn <= (f +1)||fn<=(f-1)) && (cn <= (c +1)||cn<=(c-1)) && ((f +1)<=fn ||(f-1)<=fn) && ((c +1)<=cn ||(c-1)<=cn)) {
+            if (Battle.tablero[fn][cn] != null) {
+                if (!color.equals(atacado.color)) {
+                    if (atacado.escudo > 0) {
+                        atacado.escudo -= 1;
+                        if (atacado.escudo < 0) {
+                            atacado.vida += atacado.escudo;
+                            atacado.escudo = 0;
                         }
                     } else {
-                        c.vida -= 1;
+                        atacado.vida -= 1;
                     }
-                    c.print();
+                    atacado.print();
                  } else {
                     System.out.println("No puedes atacar a tu mismo equipo");
                  }

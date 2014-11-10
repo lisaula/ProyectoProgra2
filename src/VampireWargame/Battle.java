@@ -1,130 +1,219 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package VampireWargame;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
-/**
- *
- * @author admin
- */
 public class Battle {
-    
+
+    static ArrayList<Jugador> players = new ArrayList<>();
     static Ficha[][] tablero = new Ficha[6][6];
-    
-    public static void printTablero(){
-        for(int x=0;x<6;x++){
-            for(int y=0;y<6;y++){
-                if(tablero[x][y]== null)
+
+    public static void printTablero() {
+        for (int x = 0; x < 6; x++) {
+            for (int y = 0; y < 6; y++) {
+                if (tablero[x][y] == null) {
                     System.out.print("[  ]");
-                else
-                    System.out.print(""+tablero[x][y].toString()+"");
+                } else {
+                    if(tablero[x][y].vida <= 0 )
+                        tablero[x][y]=null;
+                    System.out.print("" + tablero[x][y].toString() + "");
+                }
             }
             System.out.println("");
         }
     }
-    
+
+    public static Jugador buscarPlayer(String n) {
+        for (Jugador j : players) {
+            if (j.getNombre().equalsIgnoreCase(n)) {
+                return j;
+            }
+        }
+        return null;
+    }
+
+    public static int controlFichas(boolean t) {
+        int contB = 0, contN = 0;
+        for (Ficha f[] : Battle.tablero) {
+            for (Ficha c : f) {
+                if (c != null && c.color.equals("N")) {
+                    contN++;
+                } else if (c != null && c.color.equals("B")) {
+                    contB++;
+                }
+            }
+        }
+        if (t == true) {
+            return contB;
+        }
+        return contN;
+    }
+
     public static void main(String[] args) {
         Scanner lea = new Scanner(System.in);
-        ArrayList <Jugador> players = new ArrayList<>();
+        Random rnd = new Random();
+        String arr[] = {"VAMPIRO", "MUERTE", "LOBO", "VAMPIRO", "MUERTE", "LOBO"};
         int op;
-        do{
-            System.out.println("1-INICIAR PARTIDA\n" +
-                    "2-RANKING HISTORICO DE JUGADORES\n" +
-                    "3-LOG DE ULTIMAS 10 PARTIDAS\n" +
-                    "4-SALIR");
+        do {
+            System.out.println("1-INICIAR PARTIDA\n"
+                    + "2-RANKING HISTORICO DE JUGADORES\n"
+                    + "3-LOG DE ULTIMAS 10 PARTIDAS\n"
+                    + "4-SALIR");
             System.out.print("R: ");
-            op=lea.nextInt();
-            
-            switch(op){
-                case 1:
-                    System.out.print("Ingrese USERNAME de Player #1:");
-                    players.add(new Jugador(lea.next()));
-                    System.out.print("Ingrese USERNAME de Player #2:");
-                    players.add(new Jugador(lea.next()));
-                    
-                    Ficha vampiro = new Vampiro("B",0,1);
-                    Ficha vampiro2 = new Vampiro("B",0,4);
-                    Ficha vampiro3 = new Vampiro("N",5,1);
-                    Ficha vampiro4 = new Vampiro("N",5,4);
-                    Ficha muerte = new Muerte("B",0,2);
-                    Ficha muerte2 = new Muerte("B",0,3);
-                    Ficha muerte3 = new Muerte("N",5,2);
-                    Ficha muerte4 = new Muerte("N",5,3);
-                    Ficha lobo = new Lobo("B",0,0);
-                    Ficha lobo2 = new Lobo("B",0,5);
-                    Ficha lobo3 = new Lobo("N",5,0);
-                    Ficha lobo4 = new Lobo("N",5,5);
+            op = lea.nextInt();
 
-                    tablero[0][0]=lobo;
-                    tablero[0][5]=lobo2;
-                    tablero[5][0]=lobo3;
-                    tablero[5][5]=lobo4;
-                    tablero[0][1]=vampiro;
-                    tablero[0][4]=vampiro2;
-                    tablero[5][1]=vampiro3;
-                    tablero[5][4]=vampiro4;
-                    tablero[0][2]=muerte;
-                    tablero[0][3]=muerte2;
-                    tablero[5][2]=muerte3;
-                    tablero[5][3]=muerte4;
-                     printTablero(); 
-                    
+            switch (op) {
+                case 1:
+                    Jugador player1 = null;
+                    Jugador player2 = null;
+
+                    System.out.print("Ingrese USERNAME de Player #1:");
+                    String j1 = lea.next();
+                    if (buscarPlayer(j1) != null) {
+                        player1 = buscarPlayer(j1);
+                    } else {
+                        players.add(new Jugador(j1));
+                        player1 = buscarPlayer(j1);
+                    }
+
+                    System.out.print("Ingrese USERNAME de Player #2:");
+                    String j2 = lea.next();
+                    players.add(new Jugador(j2));
+                    if (buscarPlayer(j2) != null) {
+                        player2 = buscarPlayer(j2);
+                    } else {
+                        players.add(new Jugador(j2));
+                        player2 = buscarPlayer(j2);
+                    }
+
+                    tablero[0][0] = new Lobo("B", 0, 0);
+                    tablero[0][5] = new Lobo("B", 0, 5);
+                    tablero[5][0] = new Lobo("N", 5, 0);
+                    tablero[5][5] = new Lobo("N", 5, 5);
+                    tablero[0][1] = new Vampiro("B", 0, 1);
+                    tablero[0][4] = new Vampiro("B", 0, 4);
+                    tablero[5][1] = new Vampiro("N", 5, 1);
+                    tablero[5][4] = new Vampiro("N", 5, 4);
+                    tablero[0][2] = new Muerte("B", 0, 2);
+                    tablero[0][3] = new Muerte("B", 0, 3);
+                    tablero[5][2] = new Muerte("N", 5, 2);
+                    tablero[5][3] = new Muerte("N", 5, 3);
+
+                    int caso1 = 0,
+                     caso2 = 0;
+                    String jugadorEnTurno;
+                    int fichasRestantes = 0;
+                    boolean turn = true,
+                     retiro = false;
+
+                    do {
+                        System.out.println("");
+                        printTablero();
+                        System.out.println("");
+                        jugadorEnTurno = (turn == true ? "Turno fichas blancas, mueve " + player1.getNombre() : "Turno Fichas negras, mueve " + player2.getNombre());
+                        System.out.println(jugadorEnTurno);
+
+                        fichasRestantes = controlFichas(turn);
+                        System.out.println("Restante de fichas: " + fichasRestantes);
+
+                        String espectroAlAzar = arr[rnd.nextInt(arr.length)];
+                        System.out.println("Su opcion a mover es un(a) " + espectroAlAzar);
+                        int fa, ca;
+
+                        //printTablero();
+                        while (true) {
+                            System.out.print("Ingrese posicion fila actual: ");
+                            fa = lea.nextInt();
+                            System.out.print("Ingrese posicion columna actual: ");
+                            ca = lea.nextInt();
+
+                            
+                            if (fa == -1 && ca == -1) {
+                                retiro = true;
+                                System.out.print("En realidad desea salir del juego? ");
+                                String res = lea.next();
+                                if (res.equalsIgnoreCase("si")) {
+                                    break;
+                                }
+                                continue;
+
+                               
+                            } else if (tablero[fa][ca] != null && tablero[fa][ca].nombreEspectro.equals(espectroAlAzar)) {
+                                break;
+                            }
+                            System.out.println("coordenadas incorrectas, ingreselas de nuevo");
+                        }
+                        
+                        if(retiro==true & turn ==true){
+                            System.out.println("Jugador "+player1.getNombre()+"Se ha retirado. Felicidades "
+                                    +player2.getNombre()+"gasnaste 3 puntos");
+                            player2.setPuntos();
+                            break;
+                        }
+                        if(retiro==true & turn ==false){
+                            System.out.println("Jugador "+player1.getNombre()+"Se ha retirado. Felicidades "
+                                    +player2.getNombre()+"gasnaste 3 puntos");
+                            player2.setPuntos();
+                            break;
+                        }
+
+                        if(turn==true){
+                            tablero[fa][ca].subMenu(fa, ca,player1.getNombre());
+                        }
+                        
+                        if(turn==false){
+                            tablero[fa][ca].subMenu(fa, ca,player2.getNombre());
+                        }
+
+                        printTablero();
+                        if (fichasRestantes == 4 && caso1 <= 1) {
+                            caso1++;
+                            continue;
+                        }
+
+                        if (fichasRestantes == 2 && caso2 <= 2) {
+                            caso2++;
+                            continue;
+
+                        }
+
+                        if (fichasRestantes == 0 && turn == true) {
+                            System.out.println("Jugador " + player2.getNombre() + " ha vencido a jugador" + player1.getNombre()
+                                    + ". Felicidades tienes 3 puntos");
+                            player2.setPuntos();
+                        }
+                        if (fichasRestantes == 0 && turn == false) {
+                            System.out.println("Jugador " + player1.getNombre() + " ha vencido a jugador" + player2.getNombre()
+                                    + ". Felicidades tienes 3 puntos");
+                            player1.setPuntos();
+                        }
+                        turn = !turn;
+
+                    } while (fichasRestantes > 0);
                     break;
                 case 2:
                     break;
                 case 3:
                     break;
                 case 4:
-                    if(op==4){
-                        System.out.println("Usted a escogido salir del sistema\nADIOS");
-                        
-                    }else{
-                        System.out.println("Opcion no valida.");
-                    }
+                    System.out.println("Usted a escogido salir del sistema\nADIOS");
                     break;
-                    
+                default:
+                    System.out.println("Opcion no valida.");
             }
-            
-            
-            
-        }while(op!=4);
-        
-        
-        
-        
-        
-        
-       
-       
-        
-        
+
+        } while (op != 4);
+
 //        printTablero();
 //        tablero[2][0].moverPieza(tablero);
 //        printTablero();
-          //tablero[0][0].atacar(); 
+        //tablero[0][0].atacar(); 
 //        if(tablero[0][0].moverPieza(tablero))
 //            System.out.println("Movido");
 //        else
 //            tablero[0][0].moverPieza(tablero);
-        
 //        if(tablero[0][0] instanceof Lobo ){
 //           tablero[0][0].moverPieza(tablero);
 //        }else
 //            System.out.println("No es lobo");
-        
-       
-        
-        
-        
-        
-        
-        
-        
     }
 }
